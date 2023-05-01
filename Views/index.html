@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sock Help</title>
+</head>
+<body>
+
+    <input type="text" id="name">
+    <button type="button" id="submit">Send Message</button>
+    <h1></h1>
+    
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log(socket.id);
+        });
+
+        socket.on('message', (data) => {
+            document.querySelector('h1').innerHTML = data;
+        });
+
+        const sendMessage = () => {
+            const message = document.getElementById('name').value;
+            socket.emit('message', message);
+        };
+
+        document.getElementById('submit').addEventListener('click', sendMessage);
+    </script>
+</body>
+</html>
